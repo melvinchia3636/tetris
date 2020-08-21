@@ -139,6 +139,7 @@ doneblock = []
 score = 0
 blockstyle, block = get_random_style()
 pygame.init()
+pygame.display.set_caption('Tetris')
 font = pygame.font.Font('font.ttf', 32)
 file = 'theme.mp3'
 pygame.mixer.init()
