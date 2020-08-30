@@ -93,6 +93,7 @@ def detect_move():
     global doneblock
     global blockstyle
     global style
+    global stop
     while True:
         if keyboard.is_pressed('a'):
             if all([True if [i[0]-1, i[1]] not in doneblock and i[0]-1 >= 0 else False for i in block[:-1]]):
@@ -123,6 +124,11 @@ def detect_move():
             height = math.ceil(sum([i[1] for i in block[:-1]]) / len(block[:-1]))-1
             width = math.ceil(sum([i[0] for i in block[:-1]]) / len(block[:-1]))-1
             block = [[i[0]+width, i[1]+height] for i in newblock[:-1]] + [newblock[-1]]
+        if keyboard.is_pressed('space'):
+            if stop == True:
+                stop = False
+            else:
+                stop = True
         time.sleep(0.08)
 
 clock = pygame.time.Clock()
@@ -137,6 +143,7 @@ count = []
 done = []
 doneblock = []
 score = 0
+stop = False
 blockstyle, block = get_random_style()
 pygame.init()
 pygame.display.set_caption('Tetris')
@@ -154,17 +161,19 @@ x.start()
 def main():
     global run
     global count
+    global stop
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        if len(count) == 20:   
-            count = []
-        else:
-            count.append(1)
-        update()
-        block_movement(count)
-        check_score()
+        if not stop:
+            if len(count) == 20:   
+                count = []
+            else:
+                count.append(1)
+            update()
+            block_movement(count)
+            check_score()
         clock.tick(60)
         pygame.display.update()
 
